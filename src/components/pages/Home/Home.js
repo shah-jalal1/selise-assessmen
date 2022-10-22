@@ -97,10 +97,8 @@ const Home = () => {
     }
 
     const getAllBookmarks = () => {
-
         setIsAdd(false);
     }
-
 
     const addCategory = () => {
         setIsAdd(true);
