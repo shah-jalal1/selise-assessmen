@@ -6,8 +6,9 @@ import CategoryList from "../../common/CategoryList";
 
 const Home = () => {
 
-    // const [bookmarksData, setBookmarkData] = useState([])
     let bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
+
+    const [isInitData, setIsInitData] = useState(true);
 
 
     const [isAdd, setIsAdd] = useState(false);
@@ -61,11 +62,18 @@ const Home = () => {
         }
     ]
 
-    console.log('@@@@@@@', bookmarksData)
-    console.log('###', categoryList)
+    console.log('book', bookmarksData)
 
     useEffect(() => {
+        const _data = categoryList?.map(catData => {
+
+
+            return catData;
+        })
+        localStorage.setItem('bookmarks-data', JSON.stringify(_data));
         getAllBookmarks();
+        setIsInitData(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const showModal = () => {
@@ -84,16 +92,12 @@ const Home = () => {
 
         localStorage.removeItem("bookmarks-data");
 
-       // const _data = categoryList?.map(catData => {
-       //      if (catData?.categoryListName === values?.categoryListName) {
-       //          catData?.category?.push(values);
-       //      }
-       //     console.log('cat data', catData);
-       //
-       //     return catData;
-       //  })
 
-        const _data = bookmarksData[0]?.map(catData => {
+        console.log('bookmark data', bookmarksData)
+
+        let _data;
+
+        _data = bookmarksData?.map(catData => {
             if (catData?.categoryListName === values?.categoryListName) {
                 catData?.category?.push(values);
             }
@@ -101,10 +105,6 @@ const Home = () => {
 
             return catData;
         })
-
-
-
-        console.log('values', _data)
 
         let a = [];
         a = JSON.parse(localStorage.getItem('bookmarks-data')) || [];
@@ -119,14 +119,14 @@ const Home = () => {
         getAllBookmarks();
 
         setIsModalOpen(false);
+        setIsInitData(false);
 
 
     }
 
     const getAllBookmarks = () => {
-        // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
-         // setBookmarkData(JSON.parse(localStorage.getItem(('bookmarks-data'))));
-         setIsAdd(false);
+
+        setIsAdd(false);
     }
 
 
@@ -144,10 +144,13 @@ const Home = () => {
             </div>
 
             <div>
-                <CategoryList
-                    // categoryList={categoryList}
-                    categoryList={bookmarksData[0]}
-                />
+                {
+
+                        <CategoryList
+                    categoryList={isInitData ? bookmarksData : bookmarksData[0]}
+                    />
+                }
+
             </div>
 
 
