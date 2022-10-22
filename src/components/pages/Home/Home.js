@@ -6,7 +6,15 @@ import CategoryList from "../../common/CategoryList";
 
 const Home = () => {
 
-    let bookmarksData;
+    // const [bookmarksData, setBookmarkData] = useState([])
+    let bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
+
+
+    const [isAdd, setIsAdd] = useState(false);
+
+    const [form] = Form.useForm();
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const categoryList = [
         {
@@ -46,70 +54,85 @@ const Home = () => {
                     },
                     {
                         'catName': "react",
-                        "title": "Cake",
+                        "title": "danis",
                         "url": 0.55,
                     }
                 ]
         }
     ]
 
-
-    let catergory = ['javasript', 'angular', 'basic angular']
-
-    const [categories, setCategories] = useState([]);
-    const [catergoryTempValue, setCategoryTempValue] = useState('');
-
-    const [form] = Form.useForm();
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    console.log('@@@@@@@', bookmarksData)
+    console.log('###', categoryList)
 
     useEffect(() => {
         getAllBookmarks();
-    })
+    }, [])
 
     const showModal = () => {
         setIsModalOpen(true);
     };
 
-    // const handleOk = () => {
-    //     setIsModalOpen(false);
-    // };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
+
     const onFinish = async values => {
 
-        values.category = categories;
+        // let _tempBData = bookmarksData;
 
-        setIsModalOpen(false);
+        localStorage.removeItem("bookmarks-data");
+
+       // const _data = categoryList?.map(catData => {
+       //      if (catData?.categoryListName === values?.categoryListName) {
+       //          catData?.category?.push(values);
+       //      }
+       //     console.log('cat data', catData);
+       //
+       //     return catData;
+       //  })
+
+        const _data = bookmarksData[0]?.map(catData => {
+            if (catData?.categoryListName === values?.categoryListName) {
+                catData?.category?.push(values);
+            }
+            console.log('cat data', catData);
+
+            return catData;
+        })
+
+
+
+        console.log('values', _data)
 
         let a = [];
         a = JSON.parse(localStorage.getItem('bookmarks-data')) || [];
-        a.push(values);
+        a.push(_data);
 
         localStorage.setItem('bookmarks-data', JSON.stringify(a));
 
         form.resetFields();
-        setCategories([]);
-        setCategoryTempValue('');
 
         alert("Successfully added into favourite");
 
         getAllBookmarks();
+
+        setIsModalOpen(false);
+
+
     }
 
     const getAllBookmarks = () => {
-        bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
+        // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
+         // setBookmarkData(JSON.parse(localStorage.getItem(('bookmarks-data'))));
+         setIsAdd(false);
     }
 
-    const handleChange = (value) => {
-        setCategoryTempValue(value);
-    };
+
 
     const addCategory = () => {
-        setCategories([...categories, catergoryTempValue]);
+        setIsAdd(true);
     }
 
 
@@ -122,7 +145,8 @@ const Home = () => {
 
             <div>
                 <CategoryList
-                    categoryList={categoryList}
+                    // categoryList={categoryList}
+                    categoryList={bookmarksData[0]}
                 />
             </div>
 
@@ -165,25 +189,20 @@ const Home = () => {
                                 <Input placeholder='Url'/>
                             </Form.Item>
                         </Col>
-                        {/*{*/}
-                        {/*    catergory.map(data => {*/}
-                        {/*        h1*/}
-                        {/*    })*/}
-                        {/*}*/}
 
 
                         <Col md={24}>
                             <div style={{display: 'flex'}}>
                                 <Form.Item
+                                    name="categoryListName"
                                     rules={[{required: true, message: 'Please input category'}]}
                                 >
-                                    <Select style={{width: '400px'}}
-                                            onChange={handleChange} disabled={categories !== [] ? false : true}
+                                    <Select disabled={isAdd} style={{width: '400px'}}
                                     >
                                         {
-                                            catergory.map(data =>
-
-                                                <Option key={Math.random()} value={data}>{data}</Option>
+                                            categoryList?.map(data =>
+                                                <Option key={Math.random()}
+                                                        value={data?.categoryListName}>{data?.categoryListName}</Option>
                                             )
                                         }
                                     </Select>
@@ -198,35 +217,19 @@ const Home = () => {
                             </div>
                         </Col>
                         <Col md={24} xs={24}>
-                            <div>
+                            {
+                                isAdd &&
+                                <Form.Item
+                                    // label="Title"
+                                    name="catName"
+                                    rules={[{required: true, message: 'Please input catName'}]}
+                                >
+                                    <Input placeholder='New Category Name'/>
+                                </Form.Item>
+                            }
 
-                                {
-                                    categories?.map(data =>
-                                        <div style={{display: 'flex'}}>
-                                            <Select
-                                                style={{width: '90%'}}
-                                                onChange={handleChange}
-                                            >
-                                                {
-                                                    catergory.map(data =>
-                                                        <Option key={Math.random()} value={data}>{data}</Option>
-                                                    )
-                                                }
-                                            </Select>
-                                            <PlusSquareOutlined
-                                                onClick={addCategory}
-                                                style={{
-                                                    fontSize: "20px",
-                                                    marginLeft: "0px",
-                                                }}
-                                            />
-                                        </div>
-                                    )
-                                }
-
-
-                            </div>
                         </Col>
+
 
                         <Col md={24}>
                             <Form.Item>
