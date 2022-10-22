@@ -28,6 +28,24 @@ const Home = () => {
     };
 
     const onFinish = async values => {
+
+        values.category = categories;
+
+        console.log('values', values)
+
+        setIsModalOpen(false);
+
+        let a = [];
+        a = JSON.parse(localStorage.getItem('bookmarks-data')) || [];
+        a.push(values);
+
+        localStorage.setItem('bookmarks-data', JSON.stringify(a));
+
+        form.resetFields();
+        setCategories([]);
+        setCategoryTempValue('');
+
+        alert("Successfully added into favourite");
     }
 
     const handleChange = (value) => {
@@ -39,17 +57,21 @@ const Home = () => {
         setCategories([...categories, catergoryTempValue]);
     }
 
-    console.log('category', categories)
 
     return (
         <div style={{padding: '50px'}}>
-           <div style={{display: 'flex', justifyContent: 'center'}}>
-               <h2 style={{marginRight: '20px'}}>Bookmark Manager</h2>
-               <Button type='primary' onClick={showModal}>Add Bookmark</Button>
-           </div>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <h2 style={{marginRight: '20px'}}>Bookmark Manager</h2>
+                <Button type='primary' onClick={showModal}>Add Bookmark</Button>
+            </div>
 
 
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal
+                title="Basic Modal"
+                open={isModalOpen}
+                // onOk={handleOk}
+                // onCancel={handleCancel}
+                >
 
                 <Form
                     layout='vertical'
@@ -86,25 +108,72 @@ const Home = () => {
                         {/*    })*/}
                         {/*}*/}
                         <Col md={24} xs={24}>
-                           <div style={{display: 'flex'}}>
-                               <Select style={{ width: 120 }} onChange={handleChange}>
-                                   {
-                                       catergory.map(data =>
-                                           <Option key={data} value={data}>{data}</Option>
+                            <div>
 
-                                       )
-                                   }
-                               </Select>
+                               <div style={{display: 'flex'}}>
+                                   <Form.Item
+                                       rules={[{required: true, message: 'Please input category'}]}
+                                   >
+                                       <Select style={{width: '90%'}}
+                                               onChange={handleChange} disabled={categories !== [] ? false : true}
+                                       >
+                                           {
+                                               catergory.map(data =>
 
-                               <PlusSquareOutlined
-                                   onClick={addCategory}
-                                   style={{
-                                       fontSize: "20px",
-                                       marginLeft: "0px",
-                                   }}
-                               />
-                           </div>
+                                                   <Option key={Math.random()} value={data}>{data}</Option>
+                                               )
+                                           }
+                                       </Select>
+                                   </Form.Item>
+                                   <PlusSquareOutlined
+                                       onClick={addCategory}
+                                       style={{
+                                           fontSize: "20px",
+                                           marginLeft: "0px",
+                                       }}
+                                   />
+                               </div>
+
+                                <div style={{display: 'flex'}}>
+
+                                </div>
+                                {
+                                    categories?.map(data =>
+                                        <div style={{display: 'flex'}}>
+                                            <Select
+                                                style={{width: '90%'}}
+                                                onChange={handleChange}
+                                            >
+                                                {
+                                                    catergory.map(data =>
+                                                        <Option key={Math.random()} value={data}>{data}</Option>
+                                                    )
+                                                }
+                                            </Select>
+                                            <PlusSquareOutlined
+                                                onClick={addCategory}
+                                                style={{
+                                                    fontSize: "20px",
+                                                    marginLeft: "0px",
+                                                }}
+                                            />
+                                        </div>
+                                    )
+                                }
+
+
+                            </div>
                         </Col>
+
+                        <Form.Item>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                style={{width: "100%"}}
+                            >
+                                Submit
+                            </Button>
+                        </Form.Item>
 
                     </Row>
                 </Form>
