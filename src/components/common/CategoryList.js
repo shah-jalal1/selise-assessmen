@@ -13,7 +13,6 @@ const CategoryList = ({categoryList}) => {
         setDetailsData(data);
     }
 
-    console.log('category list', categoryList)
     return (
         <div className='category-wrapper'>
             <Row>
@@ -52,7 +51,7 @@ const CategoryList = ({categoryList}) => {
                         detailsData ?
                             <a rel="noreferrer" href={detailsData?.value?.url} target='_blank'>
                                 <div className='category-card'>
-                                    <h3>Title: {detailsData?.value?.title}</h3>
+                                    <h3>Title: {detailsData?.value?.catName}</h3>
                                     <h3>url: {detailsData?.value?.url}</h3>
                                     <h3>Category: {detailsData?.categoryListName}</h3>
                                 </div>

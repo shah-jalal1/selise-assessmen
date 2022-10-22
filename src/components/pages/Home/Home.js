@@ -24,19 +24,12 @@ const Home = () => {
                 [
                     {
                         'catName': "javascript",
-                        "title": "Cake",
-                        "url": 0.55,
+                        "url": 'https://www.w3schools.com/',
                     },
                     {
                         'catName': "angular",
-                        "title": "Cake",
-                        "url": 0.55,
+                        "url": 'https://www.w3schools.com/',
                     },
-                    {
-                        'catName': "react",
-                        "title": "Cake",
-                        "url": 0.55,
-                    }
                 ]
         },
         {
@@ -44,25 +37,16 @@ const Home = () => {
             "category":
                 [
                     {
-                        'catName': "javascript",
-                        "title": "Cake",
-                        "url": 0.55,
+                        'catName': "python",
+                        "url": 'https://www.w3schools.com/',
                     },
                     {
-                        'catName': "angular",
-                        "title": "Cake",
-                        "url": 0.55,
+                        'catName': "c++",
+                        "url": 'https://www.w3schools.com/',
                     },
-                    {
-                        'catName': "react",
-                        "title": "danis",
-                        "url": 0.55,
-                    }
                 ]
         }
     ]
-
-    console.log('book', bookmarksData)
 
     useEffect(() => {
         const _data = categoryList?.map(catData => {
@@ -92,17 +76,12 @@ const Home = () => {
 
         localStorage.removeItem("bookmarks-data");
 
-
-        console.log('bookmark data', bookmarksData)
-
         let _data;
 
         _data = bookmarksData?.map(catData => {
             if (catData?.categoryListName === values?.categoryListName) {
                 catData?.category?.push(values);
             }
-            console.log('cat data', catData);
-
             return catData;
         })
 
@@ -121,7 +100,6 @@ const Home = () => {
         setIsModalOpen(false);
         setIsInitData(false);
 
-
     }
 
     const getAllBookmarks = () => {
@@ -130,9 +108,12 @@ const Home = () => {
     }
 
 
-
     const addCategory = () => {
         setIsAdd(true);
+    }
+
+    const onCancel = () => {
+        setIsModalOpen(false);
     }
 
 
@@ -177,7 +158,9 @@ const Home = () => {
                             <Form.Item
                                 // label="Title"
                                 name="title"
-                                rules={[{required: true, message: 'Please input title'}]}
+                                rules={[{required: true, message: 'Please input title'},
+                                    { max: 30, message: 'Username must be minimum 30 characters.' }
+                                ]}
                             >
                                 <Input placeholder='title'/>
                             </Form.Item>
@@ -194,13 +177,13 @@ const Home = () => {
                         </Col>
 
 
-                        <Col md={24}>
-                            <div style={{display: 'flex'}}>
+                        <Row >
+                            <div style={{display: 'flex', width: '100%'}}>
                                 <Form.Item
                                     name="categoryListName"
                                     rules={[{required: true, message: 'Please input category'}]}
                                 >
-                                    <Select disabled={isAdd} style={{width: '400px'}}
+                                    <Select disabled={isAdd} style={{width: '420px', marginRight: '10px'}}
                                     >
                                         {
                                             categoryList?.map(data =>
@@ -210,22 +193,28 @@ const Home = () => {
                                         }
                                     </Select>
                                 </Form.Item>
-                                <PlusSquareOutlined
+                                <Button
+                                    icon={<PlusSquareOutlined
+                                        style={{
+                                            fontSize: "30px",
+                                            marginLeft: "0px",
+                                            border: 'none'
+                                        }}
+
+                                    />}
                                     onClick={addCategory}
-                                    style={{
-                                        fontSize: "20px",
-                                        marginLeft: "0px",
-                                    }}
                                 />
+
                             </div>
-                        </Col>
+                        </Row>
                         <Col md={24} xs={24}>
                             {
                                 isAdd &&
                                 <Form.Item
-                                    // label="Title"
                                     name="catName"
-                                    rules={[{required: true, message: 'Please input catName'}]}
+                                    rules={[
+                                        {required: true, message: 'Please input catName'},
+                                    ]}
                                 >
                                     <Input placeholder='New Category Name'/>
                                 </Form.Item>
@@ -235,15 +224,21 @@ const Home = () => {
 
 
                         <Col md={24}>
-                            <Form.Item>
-                                <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    style={{width: "100%"}}
-                                >
-                                    Submit
-                                </Button>
-                            </Form.Item>
+
+                          <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
+                              <Button type='primary' onClick={onCancel}>Cancel</Button>
+
+                              <Form.Item>
+                                  <Button
+                                      type="primary"
+                                      htmlType="submit"
+                                      style={{width: "100%"}}
+                                  >
+                                      Submit
+                                  </Button>
+                              </Form.Item>
+                          </div>
+
                         </Col>
 
                     </Row>
