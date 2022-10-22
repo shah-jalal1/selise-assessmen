@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Form, Input, Modal, Row, Select} from "antd";
-import {Option} from "antd/es/mentions";
 import {PlusSquareOutlined} from "@ant-design/icons";
 import CategoryList from "../../common/CategoryList";
 
@@ -9,7 +8,6 @@ const Home = () => {
     let bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')));
 
     const [isInitData, setIsInitData] = useState(true);
-
 
     const [isAdd, setIsAdd] = useState(false);
 
@@ -50,8 +48,6 @@ const Home = () => {
 
     useEffect(() => {
         const _data = categoryList?.map(catData => {
-
-
             return catData;
         })
         localStorage.setItem('bookmarks-data', JSON.stringify(_data));
@@ -71,8 +67,6 @@ const Home = () => {
 
 
     const onFinish = async values => {
-
-        // let _tempBData = bookmarksData;
 
         localStorage.removeItem("bookmarks-data");
 
@@ -136,7 +130,7 @@ const Home = () => {
 
 
             <Modal
-                title="Basic Modal"
+                title="Add Bookmark"
                 open={isModalOpen}
                 okButtonProps={{style: {display: 'none'}}}
                 cancelButtonProps={{style: {display: 'none'}}}
@@ -177,7 +171,7 @@ const Home = () => {
                         </Col>
 
 
-                        <Row >
+                        <Col md={24} >
                             <div style={{display: 'flex', width: '100%'}}>
                                 <Form.Item
                                     name="categoryListName"
@@ -187,8 +181,8 @@ const Home = () => {
                                     >
                                         {
                                             categoryList?.map(data =>
-                                                <Option key={Math.random()}
-                                                        value={data?.categoryListName}>{data?.categoryListName}</Option>
+                                                <Select.Option key={Math.random()}
+                                                        value={data?.categoryListName}>{data?.categoryListName}</Select.Option>
                                             )
                                         }
                                     </Select>
@@ -206,7 +200,7 @@ const Home = () => {
                                 />
 
                             </div>
-                        </Row>
+                        </Col>
                         <Col md={24} xs={24}>
                             {
                                 isAdd &&

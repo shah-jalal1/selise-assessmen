@@ -4,8 +4,6 @@ import './CategoryList.scss'
 
 const CategoryList = ({categoryList}) => {
 
-    // console.log('catlist', categoryList)
-
     const [detailsData, setDetailsData] = useState();
 
     const handleDetails = (data) => {
