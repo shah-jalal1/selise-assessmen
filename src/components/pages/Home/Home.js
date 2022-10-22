@@ -15,17 +15,17 @@ const Home = () => {
                 [
                     {
                         'catName': "javascript",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     },
                     {
                         'catName': "angular",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     },
                     {
                         'catName': "react",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     }
                 ]
@@ -36,17 +36,17 @@ const Home = () => {
                 [
                     {
                         'catName': "javascript",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     },
                     {
                         'catName': "angular",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     },
                     {
                         'catName': "react",
-                        "name": "Cake",
+                        "title": "Cake",
                         "url": 0.55,
                     }
                 ]
